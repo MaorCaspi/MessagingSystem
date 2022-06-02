@@ -6,5 +6,5 @@ class Message(models.Model):
     receiver = models.CharField(max_length=10)
     message = models.CharField(max_length=200)
     subject = models.CharField(max_length=100)
-    creationDate = models.DateField
-    beenRead = models.BooleanField
+    creationDate = models.DateField(auto_now=True)
+    beenRead = models.BooleanField(default=False)

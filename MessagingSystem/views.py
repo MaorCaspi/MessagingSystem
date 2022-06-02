@@ -12,6 +12,8 @@ def new_message(request):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET', 'DELETE'])
 def message_detail(request, id):
 
