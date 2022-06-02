@@ -23,6 +23,8 @@ def message_detail(request, id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
+        message.beenRead=True
+        message.save(update_fields=['beenRead'])
         serializer = MessageSerializer(message)
         return Response(serializer.data)
 
@@ -34,6 +36,21 @@ def message_detail(request, id):
 def messages_for_spesific_receiver(request, receiver):
     try:
         messages = Message.objects.filter(receiver__exact=receiver)
+        for message in messages:
+            message.beenRead=True
+            message.save(update_fields=['beenRead'])
+        serializer = MessageSerializer(messages, many=True)
+        return Response(serializer.data)
+    except Message.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def unread_messages_for_spesific_receiver(request, receiver):
+    try:
+        messages = Message.objects.filter(receiver__exact=receiver, beenRead=False)
+        for message in messages:
+            message.beenRead=True
+            message.save(update_fields=['beenRead'])
         serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
     except Message.DoesNotExist:
