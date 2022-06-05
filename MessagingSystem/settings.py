@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dc_=iazjk*74*2a7mp-6z_r&djj#rx_n#4mp13awjgq9%xcc&2'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True #TODO remove this!!! 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['maor-messaging-system.herokuapp.com']
 
 
 # Application definition
