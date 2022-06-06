@@ -15,9 +15,10 @@ def new_message(request):
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'DELETE'])
-def message_detail(request, id):
+def message_detail(request):
 
     try:
+        id = request.GET['id']
         message = Message.objects.get(pk=id)
     except Message.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
@@ -33,8 +34,9 @@ def message_detail(request, id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
-def messages_for_spesific_receiver(request, receiver):
+def messages_for_spesific_receiver(request):
     try:
+        receiver = request.GET['receiver']
         messages = Message.objects.filter(receiver__exact=receiver)
         for message in messages:
             message.beenRead=True
@@ -45,8 +47,9 @@ def messages_for_spesific_receiver(request, receiver):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
-def unread_messages_for_spesific_receiver(request, receiver):
+def unread_messages_for_spesific_receiver(request):
     try:
+        receiver = request.GET['receiver']
         messages = Message.objects.filter(receiver__exact=receiver, beenRead=False)
         for message in messages:
             message.beenRead=True
